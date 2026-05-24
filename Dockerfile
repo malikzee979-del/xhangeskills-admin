@@ -17,9 +17,8 @@ COPY . .
 
 RUN mkdir -p /opt/app/public/uploads
 
-ENV NODE_ENV=development
+ENV NODE_ENV=production
 
 EXPOSE 1337
-EXPOSE 9229
 
-CMD ["npm", "run", "develop"]
+CMD ["npm", "run", "start"]
