@@ -1,0 +1,24 @@
+node_modules
+dist
+.cache
+.git
+.gitignore
+Dockerfile
+docker-compose.yml
+.env
+build
+tmp
+coverage
+
+# uploads/media
+public/uploads
+
+# mac/windows junk
+.DS_Store
+Thumbs.db
+
+# vscode
+.vscode
+
+# logs
+*.log

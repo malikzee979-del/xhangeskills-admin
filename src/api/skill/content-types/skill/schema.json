@@ -1,0 +1,109 @@
+{
+  "kind": "collectionType",
+  "collectionName": "skills",
+  "info": {
+    "singularName": "skill",
+    "pluralName": "skills",
+    "displayName": "Skill",
+    "name": "skill",
+    "description": "Skill - represents a skill offered by a user"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "coverImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "coverImageUrl": {
+      "type": "string"
+    },
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "skills"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "serviceRequests": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::service-request.service-request",
+      "mappedBy": "skill"
+    },
+    "reviews": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::review.review",
+      "mappedBy": "skill"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["pending", "approved", "rejected"],
+      "default": "pending",
+      "required": true
+    },
+    "rejectionReason": {
+      "type": "text"
+    },
+    "baseSkill": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::base-skill.base-skill"
+    },
+    "proposedBaseSkillName": {
+      "type": "string",
+      "description": "If user wants to add a new base skill type"
+    },
+    "proposedCategoryName": {
+      "type": "string",
+      "description": "If user wants to add a new category"
+    },
+    "price": {
+      "type": "integer"
+    },
+    "deliveryDays": {
+      "type": "integer"
+    },
+    "tags": {
+      "type": "json"
+    },
+    "marketplace": {
+      "type": "boolean",
+      "default": true
+    },
+    "rating": {
+      "type": "decimal"
+    },
+    "reviewsCount": {
+      "type": "integer",
+      "default": 0
+    },
+    "createdBy": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "admin::user"
+    },
+    "updatedBy": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "admin::user"
+    }
+  }
+}
