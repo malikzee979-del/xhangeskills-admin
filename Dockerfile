@@ -15,6 +15,8 @@ RUN npm install --omit=dev
 
 COPY . .
 
+ENV NODE_OPTIONS="--max-old-space-size=2048"
+
 RUN npm run build
 
 RUN mkdir -p /opt/app/public/uploads
