@@ -11,13 +11,16 @@ RUN apt-get update && apt-get install -y \
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm install --omit=dev
 
 COPY . .
+
+RUN npm run build
 
 RUN mkdir -p /opt/app/public/uploads
 
 ENV NODE_ENV=production
+ENV STRAPI_DISABLE_ADMIN_PANEL=true
 
 EXPOSE 1337
 

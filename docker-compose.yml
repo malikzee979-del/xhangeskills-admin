@@ -40,11 +40,13 @@ services:
       ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
       JWT_SECRET: ${JWT_SECRET}
 
+    command: >
+      sh -c 'echo "Waiting for database..."; until node -e "const net=require(\"net\"); const c=net.createConnection({host:\"db\",port:5432},()=>{ c.end(); process.exit(0); }); c.on(\"error\",()=>process.exit(1));"; do sleep 1; done; echo "Database ready"; npm run start'
+
     ports:
       - "1337:1337"
 
     volumes:
-      - .:/opt/app
       - /opt/app/node_modules
 
     depends_on:
@@ -67,14 +69,14 @@ services:
       DATABASE_SSL: false
 
     command: >
-      sh -c 'npm run seed:data'
+      sh -c 'echo "Waiting for database..."; for i in 1 2 3 4 5; do nc -z db 5432 2>/dev/null && { echo "Database is ready"; sleep 2; npm run seed:data; exit $$?; }; sleep 2; done; echo "Database not ready"; exit 1'
 
     volumes:
       - .:/opt/app
       - /opt/app/node_modules
 
     depends_on:
-      - backend
+      - db
 
   seeder-admin:
     build: .
@@ -93,7 +95,7 @@ services:
       DATABASE_SSL: false
 
     command: >
-      sh -c 'npm run seed:admin'
+      sh -c 'echo "Waiting for database..."; for i in 1 2 3 4 5; do nc -z db 5432 2>/dev/null && { echo "Database is ready"; sleep 2; npm run seed:admin; exit $$?; }; sleep 2; done; echo "Database not ready"; exit 1'
 
     volumes:
       - .:/opt/app
